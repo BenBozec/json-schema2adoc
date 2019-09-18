@@ -1,10 +1,10 @@
 # api_from_schema
 
-##Requirements
+## Requirements
 - Python3
 - pip
 
-## running
+## Running
 
 - Create virtual environment and source it (if required):
 ```
@@ -29,7 +29,7 @@ import api_from_schema.schemaAdocGeneratorV2
 
 ## Developing
 
-To contribute to the json-schema2adoc codebase, do the following:
+### To contribute to the json-schema2adoc codebase, do the following:
 - Clone the repo
 ```
 $ git clone https://github/AAFC-BICoE/json-schema2adoc.git
@@ -38,14 +38,14 @@ $ git clone https://github/AAFC-BICoE/json-schema2adoc.git
 ```
 $ cd json-schema2adoc
 ```
--Create virtual environment and source it:
+- Create virtual environment and source it:
 ```
 json-schema2adoc$ mkdir .env
 json-schema2adoc$ python3 -m venv .env
 json-schema2adoc$ source .env/bin/activate
 ```
 
-To simply install an editable version of the package:
+### To simply install an editable version of the package:
 - Create and start your virtual environment (if required) 
 ```
 $ mkdir .env
@@ -57,3 +57,4 @@ $ source .env/bin/activate
 $ pip install -e $ pip install git+https://github.com/AAFC-BICoE/json-schema2adoc.git[@branch|@tag]
 ```
 
+**Note:** For more information on the use of `pip install` see *https://pip.pypa.io/en/stable/reference/pip_install/*.
