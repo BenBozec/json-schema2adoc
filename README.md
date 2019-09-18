@@ -1,5 +1,4 @@
-# api_from_schema
-
+# json_schema2adoc
 ## Requirements
 - Python3
 - pip

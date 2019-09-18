@@ -11,7 +11,7 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setup(
-    name='api_from_schema',
+    name='json_schema2adoc',
     version='0.1',
     description='',
     long_description=long_description,
@@ -24,7 +24,7 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     packages=find_packages(include=[
-        'api_from_schema',
+        'json_schema2adoc',
     ]),
     # Uncomment when non-python files are to be included in the package. In such cases '
     # a MANIFEST.in file must also be included at the setup.py level of the project.
@@ -33,7 +33,7 @@ setup(
     # This creates an entry point which can be called directly: e.g. '$ generate_api_doc file.json output/directory/'
     entry_points={
         'console_scripts': [
-            'generate_api_doc = api_from_schema.schemaAdocGeneratorV2:main',
+            'generate_api_doc = json_schema2adoc.schemaAdocGeneratorV2:main',
         ],
     },
 )
