@@ -8,6 +8,7 @@ usage: schemaAdocGenerator.py input output-directory
 
 import os
 import argparse
+from pathlib import Path
 import json
 import pdb
 
@@ -16,24 +17,39 @@ def main():
     """Entry Point for the script"""
 
     # Set up CLI arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input", help="The json schema file to parse", type=str)
-    parser.add_argument("output-directory", help="The directory to ouput file to")
+    parser = argparse.ArgumentParser(description="json-schema to adoc")
+    parser.add_argument("input_directory", help="source directory for .json", type=Path)
+    parser.add_argument("output_directory", help="destination directory for .adoc")
     args = parser.parse_args()
 
-    # Open input file
-    with open(args.input, encoding='utf-8') as jsonFile:
-        json_object = json.loads(jsonFile.read())
-        adoc_name = os.path.splitext(jsonFile.name)[0] + '.adoc'
+    # Set up the input and output directory paths
+    input_folder_path = os.path.realpath(args.input_directory)
+    output_folder_path = os.path.realpath(args.output_directory)
 
-    # Build the document
-    if json_object:
-        document = build_document(json_object)
+    # Retrieves file names within input_directory
+    names = os.listdir(input_folder_path)
 
-        # Ouput document to file
-        with open(adoc_name, 'w') as outputFile:
-            for line in document:
-                outputFile.write(line+'\n')
+    # Builds .adoc for each file with ".json" in name
+    for file_name in names:
+        if ".json" in file_name:
+            file_path = os.path.join(input_folder_path, file_name)
+
+            # Open input file
+            with open(file_path, encoding='utf-8') as json_file:
+                json_object = json.loads(json_file.read())
+                adoc_name = file_name.replace(".json", ".adoc")
+                if not os.path.exists(output_folder_path):
+                    os.mkdir(output_folder_path)
+                adoc_name = os.path.join(output_folder_path, adoc_name)
+
+            # Build the document
+            if json_object:
+                document = build_document(json_object)
+
+                # Ouput document to file
+                with open(adoc_name, 'w') as output_file:
+                    for line in document:
+                        output_file.write(line+'\n')
 
 
 def build_document(json_schema: dict) -> list:
@@ -73,10 +89,19 @@ def build_document(json_schema: dict) -> list:
     Relationships of object
     """
     relationships = get_json_attribute(['relationships', 'properties'], data_properties)
-
+    print(relationships)
+    if relationships:
+        relationships_required = get_json_attribute(['required'], relationships)
+        if not relationships_required:
+            relationships_required = ''
+            
+        if 'type' in relationships:
+            data_properties.update({'type'})
+        
     """
     Cleans up properties table
     """
+    # TODO: retrieve nested 'const' attribute from relationship to display under 'Type' in adoc table
     data_type = get_json_attribute(['type', 'const'], data_properties)
 
     if 'type' in data_properties:
@@ -103,7 +128,7 @@ def build_document(json_schema: dict) -> list:
         lines.append('\n')
 
     if relationships:
-        lines.extend(get_adoc_table('Relationships', ['Type', 'Description'], relationships, ''))
+        lines.extend(get_adoc_table('Relationships', ['Type', 'Description'], relationships, relationships_required))
 
     return lines
 
@@ -151,7 +176,6 @@ def get_json_attribute(path: list, jsonObject: dict):
         return get_json_attribute(path, jsonObject[name])
     else:
         return None
-
 
 if __name__ == '__main__':
     main()
