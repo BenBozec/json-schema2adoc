@@ -44,16 +44,3 @@ json-schema2adoc$ python3 -m venv .env
 json-schema2adoc$ source .env/bin/activate
 ```
 
-### To simply install an editable version of the package:
-- Create and start your virtual environment (if required) 
-```
-$ mkdir .env
-$ python3 -m venv .env
-$ source .env/bin/activate
-```
-- Install editable version of api_from_schema package;
-```
-$ pip install -e $ pip install git+https://github.com/AAFC-BICoE/json-schema2adoc.git[@branch|@tag]
-```
-
-**Note:** For more information on the use of `pip install` see *https://pip.pypa.io/en/stable/reference/pip_install/*.
