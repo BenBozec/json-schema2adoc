@@ -33,7 +33,7 @@ setup(
     # This creates an entry point which can be called directly: e.g. '$ generate_api_doc file.json output/directory/'
     entry_points={
         'console_scripts': [
-            'generate_api_doc = json_schema2adoc.schemaAdocGeneratorV2:main',
+            'generate_api_doc = json_schema2adoc.jsonSchemaAdocGenerator:main',
         ],
     },
 )

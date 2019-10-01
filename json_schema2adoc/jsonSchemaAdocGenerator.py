@@ -115,7 +115,7 @@ def build_document(json_schema: dict) -> list:
     """
     Sets title, description, and tables
     """
-    lines.append(get_adoc_title(title, 2))
+    lines.append(get_adoc_title(title, 3))
 
     if description:
         lines.append(description+'\n')
