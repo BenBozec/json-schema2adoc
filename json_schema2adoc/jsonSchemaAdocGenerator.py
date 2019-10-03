@@ -124,7 +124,7 @@ def build_document(json_schema: dict) -> list:
         lines.extend(get_adoc_table('Properties', ['Type', 'Description'], data_properties, data_required))
 
     if attributes:
-        lines.extend(get_adoc_table('Attributes', ['Type', 'Description'], attribute_properties, required))
+        lines.extend(get_adoc_table('Attributes', ['Type', 'Description'], attribute_properties, required, True))
         lines.append('\n')
 
     if relationships:
@@ -133,7 +133,7 @@ def build_document(json_schema: dict) -> list:
     return lines
 
 
-def get_adoc_table(title, columns: list, items: dict, required: list) -> list:
+def get_adoc_table(title, columns: list, items: dict, required: list, autowidth: bool = False) -> list:
     """
     Returns a list of lines to generate a asciidoc table with a given title, columns, 
     and items to populate the table.
@@ -145,6 +145,10 @@ def get_adoc_table(title, columns: list, items: dict, required: list) -> list:
         return []
     lines = []
     lines.append('.'+title)
+
+    if autowidth:
+         lines.append('[options="autowidth"]')
+
     lines.append('|===')
     columns.insert(0, 'Name')
     lines.append(' '.join('|'+col for col in columns) + '|Required?')

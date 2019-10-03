@@ -23,7 +23,7 @@ The ```generate_api_doc``` entry point can be called directly once the package i
 
 To use schemaAdocGeneratorV2.py as a module, import the api_from_schema package from a python interpreter or another module:
 ```
-import api_from_schema.schemaAdocGeneratorV2
+import json_schema2adoc.jsonSchemaAdocGenerator
 ```
 
 ## Developing

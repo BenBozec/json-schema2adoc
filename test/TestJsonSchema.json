@@ -1,0 +1,113 @@
+{
+  "$id": "http://localhost:8080/json-schema/getOneMetadataSchema.json",
+  "base": "http://localhost:8080/api",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The object metadata schema",
+  "description": "Metadata schema for all types of objects",
+  "type": "object",
+  "required": [
+    "data"
+  ],
+  "properties": {
+    "additionalProperties": false,
+    "data": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "attributes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "const": "metadata",
+          "description": "The type of the object of the data being returned."
+        },
+        "attributes": {
+          "description": "Schema representing the metadata associated with objects",
+          "type": "object",
+          "required": [
+            "dcFormat",
+            "dcType",
+            "acDigitizationDate",
+            "xmpUsageTerms",
+            "xmpRightsWebStatement",
+            "dcRights"
+          ],
+          "additionalProperties": true,
+          "properties": {
+            "dcFormat": {
+              "type": "string",
+              "description": "A string describing the technical format of the resource. IANA media type. https://tdwg.github.io/ac/termlist/#dc_format"
+            },
+            "dcType": {
+              "enum": [
+                "Image",
+                "MovingImage",
+                "Sound",
+                "Text"
+              ],
+              "description": "Type of object stored. Higher level than mediaType. https://tdwg.github.io/ac/termlist/#dc_type"
+            },
+            "acDigitizationDate": {
+              "type": "string",
+              "description": "Date (ISO 8601 Date/Time) the first digital version was created. https://tdwg.github.io/ac/termlist/#ac_digitizationDate"
+            },
+            "managedAttributes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": [
+                    "object"
+                  ]
+                }
+              ],
+              "description": "List of key/value pairs of managed attributes."
+            },
+            "unmanagedAttributes": {
+              "type": "array",
+              "items": [
+                {
+                  "type": [
+                    "string"
+                  ]
+                }
+              ],
+              "description": "List of key(tag). Similar to https://tdwg.github.io/ac/termlist/#ac_tag"
+            },
+            "acDerivedFrom": {
+              "type": "string",
+              "description": "A URL that points to a meta data object that this meta derived from, such as a thumbnail. https://tdwg.github.io/ac/termlist/#ac_derivedFrom",
+              "pattern": "^(http://|https://)+"
+            }
+          }
+        },
+        "relationships": {
+          "properties": {
+            "dcCreator": {
+              "data": { 
+              "type": "object",
+              "required": [
+                 "id",
+                 "type"
+               ],
+               "properties": {
+                  "id": {
+                    "type": "string",
+                    "description": "The id of the dcCreater."
+                  },
+                  "type": {
+                    "const": "agent",
+                    "description": "The type of the dcCreater object."
+                  }
+                }      			  
+              }              
+            }            
+          }
+        }
+      }
+    }
+  }
+}
