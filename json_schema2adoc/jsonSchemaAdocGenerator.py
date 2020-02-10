@@ -91,19 +91,22 @@ def build_document(json_schema: dict) -> list:
     relationships = get_json_attribute(['relationships', 'properties'], data_properties)
     print(relationships)
     if relationships:
-        relationships_required = get_json_attribute(['required'], relationships)
-        if not relationships_required:
-            relationships_required = ''
-            
-        if 'type' in relationships:
-            data_properties.update({'type'})
-        
+        for relationship_name in relationships:
+            relationship_object = get_json_attribute([relationship_name], relationships)
+            relationship_required = get_json_attribute(['required'], relationship_object)
+            relationship_properties = get_json_attribute(['data', 'properties'], relationship_object)
+
+            if not relationship_required:
+                relationship_required = ''
+            if 'type' in relationship_properties:
+                relationship_type = get_json_attribute(['type', 'const'], relationship_properties)
+                relationship_object.update({'type': str(relationship_type)})
+
     """
     Cleans up properties table
     """
     # TODO: retrieve nested 'const' attribute from relationship to display under 'Type' in adoc table
     data_type = get_json_attribute(['type', 'const'], data_properties)
-
     if 'type' in data_properties:
         data_properties.update({'type': {'type': str(data_type)}})
     
@@ -128,7 +131,7 @@ def build_document(json_schema: dict) -> list:
         lines.append('\n')
 
     if relationships:
-        lines.extend(get_adoc_table('Relationships', ['Type', 'Description'], relationships, relationships_required))
+        lines.extend(get_adoc_table('Relationships', ['Type', 'Description'], relationships, relationship_required))
 
     return lines
 
