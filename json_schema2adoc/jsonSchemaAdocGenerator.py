@@ -179,6 +179,8 @@ def get_json_attribute(path: list, jsonObject: dict):
     if not path or not jsonObject:
         return jsonObject
     name = path.pop(0)
+    if name=='type' and 'enum' in jsonObject:
+        name = 'enum'
     if name in jsonObject:
         return get_json_attribute(path, jsonObject[name])
     else:
